@@ -1,0 +1,395 @@
+/* static/style.css */
+
+/* --- Global Styles & HR Theme Variables --- */
+:root {
+    --hr-primary-color: #2c3e50; /* Professional Dark Blue */
+    --hr-secondary-color: #3498db; /* Calming Blue */
+    --hr-accent-color: #e74c3c; /* Action Red/Orange */
+    --hr-bg-color: #ecf0f1; /* Light Grey Background */
+    --hr-text-color: #34495e; /* Dark Grey Text */
+    --hr-card-bg: #ffffff; /* White Cards */
+    --hr-input-bg: #f8f9fa;
+    --hr-success-color: #2ecc71; /* Green */
+    --hr-error-color: #e74c3c; /* Red */
+    --font-family: 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --shadow-light: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--hr-bg-color);
+    color: var(--hr-text-color);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* --- Main Page Content Area --- */
+.main-content {
+    width: 100%;
+    max-width: 1200px; /* Wider for tables */
+    margin-top: 20px;
+    padding: 20px;
+    min-height: 300px; /* Placeholder for table */
+}
+
+#data-display-area {
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* --- Chatbot Toggle Button (FAB) --- */
+#chatbot-toggle-button {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    background: linear-gradient(135deg, var(--hr-primary-color), var(--hr-secondary-color));
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    font-size: 28px; /* Icon size */
+    cursor: pointer;
+    box-shadow: var(--shadow-medium);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#chatbot-toggle-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+/* --- Chat Container (Positioned) --- */
+.chat-container {
+    position: fixed;
+    bottom: 100px; /* Above the FAB */
+    left: 30px;
+    width: 100%;
+    max-width: 400px; /* Chatbot width */
+    height: 70vh; /* Chatbot height */
+    max-height: 550px;
+    background-color: var(--hr-card-bg);
+    border-radius: 15px;
+    box-shadow: var(--shadow-medium);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--hr-secondary-color);
+    z-index: 999;
+    transform: translateY(100%) scale(0.8); /* Initial hide state */
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease, visibility 0s linear 0.4s;
+}
+.chat-container.open {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease, visibility 0s linear 0s;
+}
+
+/* --- Chat Header --- */
+.chat-header {
+    background: linear-gradient(135deg, var(--hr-primary-color), var(--hr-secondary-color));
+    color: white;
+    padding: 12px 15px;
+    font-size: 1.2em;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* --- Chat Messages Area --- */
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    padding: 10px 15px;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    max-width: 80%;
+    opacity: 0;
+    transform: translateY(15px);
+    animation: fadeInMessage 0.4s ease-out forwards;
+    line-height: 1.5;
+    box-shadow: var(--shadow-light);
+}
+
+@keyframes fadeInMessage {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message.user {
+    background-color: var(--hr-secondary-color);
+    color: white;
+    align-self: flex-end;
+    border-bottom-right-radius: 5px;
+}
+
+.message.bot {
+    background-color: var(--hr-input-bg);
+    color: var(--hr-text-color);
+    align-self: flex-start;
+    border-bottom-left-radius: 5px;
+}
+
+.message.bot.thinking::after {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: var(--hr-secondary-color);
+    border-radius: 50%;
+    animation: typing 1s infinite steps(3, end);
+    margin-left: 8px;
+}
+@keyframes typing {
+    0%, 20% { background-color: var(--hr-secondary-color); transform: scale(0.8); }
+    40% { background-color: var(--hr-primary-color); transform: scale(1); }
+    60%, 100% { background-color: var(--hr-secondary-color); transform: scale(0.8); }
+}
+.message.error {
+    background-color: var(--hr-error-color);
+    color: white;
+}
+.message.success {
+    background-color: var(--hr-success-color);
+    color: white;
+}
+.message pre { /* For SQL in messages */
+    background-color: rgba(0,0,0,0.05);
+    padding: 8px;
+    border-radius: 4px;
+    margin-top: 5px;
+    font-size: 0.9em;
+    color: var(--hr-primary-color);
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+
+/* --- Chat Input Area --- */
+.chat-input-area {
+    display: flex;
+    padding: 12px;
+    border-top: 1px solid #e0e0e0;
+    background-color: #fff;
+}
+
+#message-input {
+    flex-grow: 1;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    background-color: var(--hr-input-bg);
+    color: var(--hr-text-color);
+    font-size: 0.95em;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+#message-input:focus {
+    border-color: var(--hr-secondary-color);
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+}
+
+#send-button {
+    background: var(--hr-secondary-color);
+    color: white;
+    border: none;
+    padding: 0 18px;
+    margin-left: 8px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 1.1em;
+    transition: background-color 0.3s, transform 0.2s;
+}
+#send-button:hover {
+    background-color: var(--hr-primary-color);
+    transform: scale(1.05);
+}
+
+/* --- Confirmation Buttons --- */
+.confirmation-buttons button {
+    background-color: var(--hr-secondary-color);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    margin: 8px 5px 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s;
+}
+.confirmation-buttons button:hover {
+    background-color: var(--hr-primary-color);
+}
+.confirmation-buttons .confirm-no {
+    background-color: #95a5a6; /* Grey */
+}
+ .confirmation-buttons .confirm-no:hover {
+    background-color: #7f8c8d;
+}
+
+/* --- Data Table Styling (Main Page) --- */
+.data-table-container {
+    margin-top: 20px; /* Spacing from any content above */
+    padding: 20px;
+    background-color: var(--hr-card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow-medium);
+    animation: fadeInTable 0.7s ease-out;
+    overflow-x: auto;
+}
+
+@keyframes fadeInTable {
+    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95em;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0; /* Lighter border for HR theme */
+}
+
+.styled-table thead th {
+    background-color: var(--hr-primary-color);
+    color: white;
+    font-weight: 500; /* Medium weight for HR */
+    letter-spacing: 0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.styled-table tbody tr {
+    transition: background-color 0.2s ease-in-out;
+}
+.styled-table tbody tr:nth-child(even) {
+    background-color: var(--hr-input-bg); /* Very light striping */
+}
+.styled-table tbody tr:hover {
+    background-color: #d6eaf8; /* Light blue hover */
+}
+.styled-table td {
+     word-break: break-word;
+}
+
+/* Executed Query Styling (inside bot message or with table) */
+.executed-query-wrapper {
+    margin-top: 10px;
+}
+.executed-query-wrapper p {
+    font-size: 0.9em;
+    color: var(--hr-text-color);
+    margin-bottom: 5px;
+}
+.executed-query-text {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background-color: #e9ecef; /* Light grey code block */
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    color: var(--hr-primary-color);
+    white-space: pre-wrap;
+    word-break: break-all;
+    border: 1px solid #ced4da;
+}
+
+/* Small title for table */
+.table-title {
+    font-size: 1.3em;
+    color: var(--hr-primary-color);
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+/* Dynamic Form Styling */
+.dynamic-form-container {
+    padding: 25px; /* More padding for forms */
+    background-color: var(--hr-card-bg);
+    border-radius: 10px; /* Consistent rounding */
+    box-shadow: var(--shadow-medium);
+    margin-top: 20px;
+    animation: fadeInForm 0.5s ease-out;
+}
+@keyframes fadeInForm {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.dynamic-form-container h3 {
+    color: var(--hr-primary-color);
+    margin-bottom: 20px; /* More space below title */
+    font-size: 1.4em;
+    text-align: center;
+}
+.dynamic-form-container .form-group {
+    margin-bottom: 18px; /* Slightly more spacing */
+}
+.dynamic-form-container .form-group label {
+    display: block;
+    margin-bottom: 6px; /* More space for label */
+    font-weight: 500;
+    color: var(--hr-text-color);
+    font-size: 0.95em;
+}
+.dynamic-form-container .form-group input[type="text"],
+.dynamic-form-container .form-group input[type="email"],
+.dynamic-form-container .form-group input[type="date"],
+.dynamic-form-container .form-group input[type="number"],
+.dynamic-form-container .form-group select {
+    width: 100%; /* Full width */
+    padding: 12px; /* More padding in inputs */
+    border: 1px solid #ced4da; /* Standard border */
+    border-radius: 6px; /* Slightly more rounded */
+    font-size: 1em;
+    background-color: var(--hr-input-bg);
+    box-sizing: border-box; /* Important for width 100% */
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.dynamic-form-container .form-group input:focus,
+.dynamic-form-container .form-group select:focus {
+     border-color: var(--hr-secondary-color);
+     box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25); /* Bootstrap-like focus */
+     outline: none;
+}
+.dynamic-form-container .form-actions {
+    margin-top: 25px; /* More space before action buttons */
+    text-align: right; /* Align button to right */
+}
+.dynamic-form-container .form-actions button {
+    padding: 12px 25px; /* Larger button */
+    background-color: var(--hr-secondary-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+}
+.dynamic-form-container .form-actions button:hover {
+    background-color: var(--hr-primary-color);
+    transform: translateY(-2px); /* Slight lift on hover */
+}

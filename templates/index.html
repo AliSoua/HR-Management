@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HR AI Assistant</title>
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-content">
+        <h1>HR Employee Data Management</h1>
+        <p>Use the AI Assistant (bottom left) to query and manage employee data.</p>
+        <div id="data-display-area">
+            <!-- Data tables OR Dynamic Forms will be rendered here by JavaScript -->
+        </div>
+    </div>
+
+    <button id="chatbot-toggle-button" title="Toggle HR Assistant">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+    </button>
+
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            HR AI Assistant
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message bot">Hello! I'm your HR AI Assistant. How can I help you today?</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="message-input" placeholder="e.g., 'Show all engineers'">
+            <button id="send-button" title="Send">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Link to your external JavaScript file -->
+    <!-- Place it at the end of the body for better performance and to ensure DOM is loaded -->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

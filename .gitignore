@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+*.whl
+
+# Virtual Environment
+.venv/
+venv/
+env/
+ENV/
+venv.bak/
+.env.bak/
+
+# Secrets - IMPORTANT: Ensure .env is not committed
+.env
+*.env.*local
+
+# IDE / Editor
+.vscode/
+.idea/
+*.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sublime-project
+*.sublime-workspace
+
+# Flask specific
+instance/
+.webassets-cache/
+.pytest_cache/
+.coverage
+htmlcov/
+*.sqlite3
+*.db
+
+# Other
+*.log
+*.pot
+*.mo
